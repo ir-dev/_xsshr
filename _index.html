@@ -314,7 +314,7 @@
                         <input type="text" placeholder="Full Name" style="display: none;" name="" class="inputFld">
                     </div>
                     <div class="form-row">
-                        <input type="tel" placeholder="Mobile No - ex: 919080017578 (CountryCode + MobileNumber )" id="telno" name="" class="teles inputFld" required="required">
+                        <input type="tel" placeholder="Mobile No - ex: 91XXXXXXXXXX (CountryCode + MobileNumber )" id="telno" name="" class="teles inputFld" required="required">
                     </div>
                     <div class="form-row">
                         <textarea id="food" class="textAreaSec" rows="4" placeholder="Enter Food Details (Required)"></textarea>
@@ -651,7 +651,7 @@
                 mypos: pos,
                 pos: pos
             }
-            var urladdr = 'https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAUVjFat_TZyas2tLCH7mR4r6LCaW9r5-E&address=' + encodeURI($("#fndaddr").val());
+            var urladdr = 'https://maps.googleapis.com/maps/api/geocode/json?key=__GOOGLE_GEOCODE_API_KEY__&address=' + encodeURI($("#fndaddr").val());
             $.getJSON(urladdr, function (json) {
                 if (json.status === "OK") {
                     //console.log("JSON Data: " + JSON.stringify(json));
@@ -688,7 +688,7 @@
                 mypos: pos,
                 pos: pos
             }
-            var urladdr = 'https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAUVjFat_TZyas2tLCH7mR4r6LCaW9r5-E&address=' + encodeURI($("#addr").val());
+            var urladdr = 'https://maps.googleapis.com/maps/api/geocode/json?key=__GOOGLE_GEOCODE_API_KEY__&address=' + encodeURI($("#addr").val());
             $.getJSON(urladdr, function (json) {
                 if (json.status === "OK") {
                     //console.log("JSON Data: " + JSON.stringify(json));
@@ -752,7 +752,7 @@
             }, 5000);
         }
         function getCurrentAddress() {
-            var tt = 'https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAUVjFat_TZyas2tLCH7mR4r6LCaW9r5-E&latlng=' + pos.lat + ',' + pos.lng + '&sensor=true';
+            var tt = 'https://maps.googleapis.com/maps/api/geocode/json?key=__GOOGLE_GEOCODE_API_KEY__&latlng=' + pos.lat + ',' + pos.lng + '&sensor=true';
             $.getJSON(tt, function (json) {
                 //console.log("JSON Data: " + JSON.stringify(json));
                 currentaddress = json.results[0].formatted_address;
@@ -1061,6 +1061,6 @@
         }
     </script>
     <script type="text/javascript" src="https://l2.io/ip.js?var=userip"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUVjFat_TZyas2tLCH7mR4r6LCaW9r5-E&libraries=places&sensor=false&callback=getLocation" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=__GOOGLE_GEOCODE_API_KEY__&libraries=places&sensor=false&callback=getLocation" async defer></script>
 </body>
 </html>

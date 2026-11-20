@@ -332,3 +332,6 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+
+# Local secrets - never commit. Template: .env_secret.example
+.env_secret

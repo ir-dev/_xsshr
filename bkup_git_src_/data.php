@@ -1,9 +1,31 @@
 <?php 
 
-define('HOST','immanuel.co.mysql');
-define('USER','immanuel_co');
-define('PASS','123456');
-define('DB','immanuel_co');
+// Secrets are not in source control. Each value comes from an environment variable or, failing
+// that, from .env_secret in this folder or the repo root (gitignored; template: .env_secret.example).
+function xs_secret($name){
+	static $vals = null;
+	$env = getenv($name);
+	if ($env !== false && $env !== '') return $env;
+	if ($vals === null) {
+		$vals = array();
+		foreach (array(__DIR__ . '/.env_secret', dirname(__DIR__) . '/.env_secret') as $path) {
+			if (!is_readable($path)) continue;
+			foreach (file($path, FILE_IGNORE_NEW_LINES) as $line) {
+				$line = trim($line);
+				if ($line === '' || $line[0] === '#' || strpos($line, '=') === false) continue;
+				list($k, $v) = explode('=', $line, 2);
+				$vals[trim($k)] = trim($v);
+			}
+			break;
+		}
+	}
+	return isset($vals[$name]) ? $vals[$name] : '';
+}
+
+define('HOST', xs_secret('XSFOOD_LEGACY_DB_HOST'));
+define('USER', xs_secret('XSFOOD_LEGACY_DB_USER'));
+define('PASS', xs_secret('XSFOOD_LEGACY_DB_PASS'));
+define('DB', xs_secret('XSFOOD_LEGACY_DB_NAME'));
 header("access-control-allow-origin: *");
 $response = array();  
 if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0){

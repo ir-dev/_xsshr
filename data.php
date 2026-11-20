@@ -1,9 +1,31 @@
 <?php 
 
-define('HOST','204.93.216.11:3306');
-define('USER','immanuel_xs');
-define('PASS','12345');
-define('DB','immanuel_xsdb');
+// Secrets are not in source control. Each value comes from an environment variable or, failing
+// that, from .env_secret next to this file (gitignored; template: .env_secret.example).
+function xs_secret($name){
+	static $vals = null;
+	$env = getenv($name);
+	if ($env !== false && $env !== '') return $env;
+	if ($vals === null) {
+		$vals = array();
+		$path = __DIR__ . '/.env_secret';
+		if (is_readable($path)) {
+			foreach (file($path, FILE_IGNORE_NEW_LINES) as $line) {
+				$line = trim($line);
+				if ($line === '' || $line[0] === '#' || strpos($line, '=') === false) continue;
+				list($k, $v) = explode('=', $line, 2);
+				$vals[trim($k)] = trim($v);
+			}
+		}
+	}
+	return isset($vals[$name]) ? $vals[$name] : '';
+}
+
+define('HOST', xs_secret('XSFOOD_DB_HOST'));
+define('USER', xs_secret('XSFOOD_DB_USER'));
+define('PASS', xs_secret('XSFOOD_DB_PASS'));
+define('DB', xs_secret('XSFOOD_DB_NAME'));
+define('MSG91_AUTHKEY', xs_secret('XSFOOD_MSG91_AUTHKEY'));
 header("access-control-allow-origin: *");
 $response = array();  
 if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') == 0){
@@ -178,7 +200,7 @@ function sendSms($mob, $msg){
 	$curl = curl_init();
 	$msg = $msg ?? "New food enterd by an user, https://www.xsfood.org";
 	curl_setopt_array($curl, array(
-	  CURLOPT_URL => "http://api.msg91.com/api/sendhttp.php?sender=XSFOOD&route=4&mobiles=".$mob."&authkey=196456ABN4CFGfY5a7593a5&country=0&message=".$msg,
+	  CURLOPT_URL => "http://api.msg91.com/api/sendhttp.php?sender=XSFOOD&route=4&mobiles=".$mob."&authkey=".urlencode(MSG91_AUTHKEY)."&country=0&message=".$msg,
 	  CURLOPT_RETURNTRANSFER => true,
 	  CURLOPT_ENCODING => "",
 	  CURLOPT_MAXREDIRS => 10,
@@ -202,7 +224,7 @@ function sendSmsToNum(){
 	$curl = curl_init();
 
 	curl_setopt_array($curl, array(
-	  CURLOPT_URL => "http://api.msg91.com/api/sendhttp.php?sender=XSFOOD&route=4&mobiles=".$nums."&authkey=196456ABN4CFGfY5a7593a5&country=0&message=".$msg,
+	  CURLOPT_URL => "http://api.msg91.com/api/sendhttp.php?sender=XSFOOD&route=4&mobiles=".$nums."&authkey=".urlencode(MSG91_AUTHKEY)."&country=0&message=".$msg,
 	  CURLOPT_RETURNTRANSFER => true,
 	  CURLOPT_ENCODING => "",
 	  CURLOPT_MAXREDIRS => 10,
