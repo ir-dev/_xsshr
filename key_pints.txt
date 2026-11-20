@@ -5,3 +5,6 @@
 
 - so cahinging the api key
 	- 
+
+20-Nov-26 (Moved to a new repository -> https://github.com/ir-dev/xsfood.org/)
+	- deloyed as PWA app on mochahost - xsfood.org
