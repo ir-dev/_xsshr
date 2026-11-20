@@ -21,7 +21,6 @@ A simple app to share your excess food (#xsfood) with people who need it.
 | Path | What it is |
 |---|---|
 | `index.html`, `data.php`, `css/`, `js/`, `images/`, `datedrop/` | The xsfood.org site as deployed in Feb 2024: a static page plus a PHP/MySQL API |
-| `_index.html` | An older copy of the home page |
 | `bkup_git_src_/` | The original 2017 code, including the Android WebView app (`Mobile/android`) |
 | `key_pints.txt` | Deployment notes |
 
